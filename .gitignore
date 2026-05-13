@@ -1,0 +1,6 @@
+build/
+test.gg
+gig_huge.gg
+hello.gg
+*.d
+*.o
