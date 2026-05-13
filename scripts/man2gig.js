@@ -22,7 +22,16 @@ try {
     // Get clean man page text
     const cmd = section ? `man ${section} ${name}` : `man ${name}`;
     const rawContent = execSync(`${cmd} | col -b`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    const lines = rawContent.split('\n');
+    let lines = rawContent.split('\n').map(l => l.replace(/\t/g, '    ')); // 4-space tabs for consistency
+
+    // Filter out trailing empty lines and the footer line
+    while (lines.length > 0 && !lines[lines.length - 1].trim()) lines.pop();
+    if (lines.length > 0) {
+        const lastLine = lines[lines.length - 1];
+        if (lastLine.match(/[A-Z0-9_-]+\([1-9nl]\)\s*$/i)) {
+            lines.pop();
+        }
+    }
 
     // 1. Metadata Extraction
     const firstLine = lines[0] || '';
@@ -41,7 +50,7 @@ try {
     output.push(``);
 
     // 2. Process Content
-    for (let i = 1; i < lines.length - 1; i++) {
+    for (let i = 1; i < lines.length; i++) {
         let line = lines[i];
         if (!line.trim()) {
             output.push('');
@@ -51,12 +60,47 @@ try {
         const indent = line.search(/\S/);
         const content = line.trim();
 
-        if (indent === 0 && content === content.toUpperCase()) {
+        // Header Detection (Column 0, ALL CAPS)
+        if (indent === 0 && content === content.toUpperCase() && content.length > 2) {
             output.push(`# ${content}`);
             continue;
         }
 
-        if (content.includes('   ') && !content.startsWith('-')) {
+        // Flag / Definition Detection
+        if (content.match(/^-(?:[a-zA-Z0-9]|-[a-z0-9-]+)/)) {
+            const parts = content.split(/\s{2,}/);
+            if (parts.length > 1) {
+                output.push(`- ${parts[0]} : ${parts.slice(1).join(' ')}`);
+            } else {
+                let nextIdx = i + 1;
+                while (nextIdx < lines.length && !lines[nextIdx].trim()) nextIdx++;
+                
+                if (nextIdx < lines.length) {
+                    const nextLine = lines[nextIdx];
+                    const nextIndent = nextLine.search(/\S/);
+                    const nextContent = nextLine.trim();
+                    
+                    if (nextIndent > indent && !nextContent.startsWith('-')) {
+                        output.push(`- ${content} : ${nextContent}`);
+                        i = nextIdx;
+                    } else {
+                        output.push(`- ${content} : `);
+                    }
+                } else {
+                    output.push(`- ${content} : `);
+                }
+            }
+            continue;
+        }
+
+        // Bullet Detection
+        if (content.match(/^[\*•o\-\+] /)) {
+            output.push(`* ${content.substring(2).trim()}`);
+            continue;
+        }
+
+        // Table Heuristic
+        if (content.includes('   ')) {
             const parts = content.split(/\s{2,}/).filter(p => p.length > 0);
             if (parts.length > 1) {
                 output.push(`| ${parts.join(' | ')}`);
@@ -64,13 +108,29 @@ try {
             }
         }
 
-        if (indent === 0) {
-            output.push(`. ${content}`);
-        } else if (indent < 7) {
-            output.push(`## ${content}`);
-        } else {
-            output.push(`. ${content}`);
+        // Indentation Analysis
+        if (indent > 0) {
+            if (indent < 7) {
+                // Sub-header (Indented 3-4 but not a flag/bullet)
+                output.push(`## ${content}`);
+            } else if (indent >= 12) {
+                // Highly indented: Block Quote / Example
+                output.push(`> ${content}`);
+            } else {
+                // Moderate indentation: Continuation or new Text block
+                // Don't continue into headers or empty space
+                const last = output.length > 0 ? output[output.length - 1].trim() : '';
+                if (last === '' || last.startsWith('#') || last.startsWith('---')) {
+                    output.push(`. ${content}`);
+                } else {
+                    output.push(`  ${content}`);
+                }
+            }
+            continue;
         }
+
+        // Column 0 Text
+        output.push(`. ${content}`);
     }
 
     const outputPath = path.join(__dirname, `${pageName}.gg`);
