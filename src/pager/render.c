@@ -15,36 +15,53 @@ static void append_with_highlight(gig_buffer_t *buf, const char *line, const cha
     }
 
     const char *p = line;
-    int query_len = strlen(query);
+    int query_len = (int)strlen(query);
 
     while (*p) {
+        // Handle ANSI sequences first (skip highlighting them)
         if (*p == '\x1b') {
             const char *start = p;
             while (*p && *p != 'm') p++;
             if (*p) p++;
-            int len = p - start;
-            char *tmp = malloc(len + 1);
-            memcpy(tmp, start, len);
-            tmp[len] = '\0';
-            gig_buffer_append_str(buf, tmp);
-            free(tmp);
+            gig_buffer_append(buf, start, p - start);
             continue;
         }
 
+        // Search for the next match of the query
         const char *match = strcasestr(p, query);
         if (match == p) {
+            // Match found at current position: wrap in search color
             gig_buffer_append_str(buf, GIG_CLR_SEARCH);
-            for (int i = 0; i < query_len; i++) {
+            
+            // Advance through the match, preserving any embedded ANSI sequences
+            int matched_bytes = 0;
+            while (matched_bytes < query_len && *p) {
                 if (*p == '\x1b') {
+                    const char *seq_start = p;
                     while (*p && *p != 'm') p++;
                     if (*p) p++;
-                    continue;
+                    gig_buffer_append(buf, seq_start, p - seq_start);
+                } else {
+                    gig_buffer_append(buf, p++, 1);
+                    matched_bytes++;
                 }
-                gig_buffer_printf(buf, "%c", *p++);
             }
             gig_buffer_append_str(buf, GIG_CLR_RESET);
         } else {
-            gig_buffer_printf(buf, "%c", *p++);
+            // No match at current position: append characters until next match or ANSI or end
+            const char *next_special = p;
+            while (*next_special && *next_special != '\x1b' && next_special != match) {
+                if (match && next_special == match) break;
+                next_special++;
+            }
+            
+            if (next_special > p) {
+                gig_buffer_append(buf, p, next_special - p);
+                p = next_special;
+            } else if (*p) {
+                // Should not happen with logic above, but safety first
+                gig_buffer_append(buf, p++, 1);
+            }
         }
     }
 }

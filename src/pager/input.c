@@ -3,6 +3,14 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <poll.h>
+
+int gig_pager_peek_key() {
+    struct pollfd pfd = { STDIN_FILENO, POLLIN, 0 };
+    int ret = poll(&pfd, 1, 0);
+    if (ret > 0) return gig_pager_read_key();
+    return -2; // Same as EINTR/No key available
+}
 
 int gig_pager_read_key() {
     char c;

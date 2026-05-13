@@ -4,6 +4,7 @@
 #include "terminal.h"
 
 int gig_pager_read_key();
+int gig_pager_peek_key();
 void gig_pager_prompt(gig_term_state_t *ts, const char *prompt, char *buf, int size);
 
 #endif
