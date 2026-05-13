@@ -8,9 +8,9 @@
 #include <string.h>
 #include <ctype.h>
 
-static void draw_border(gig_layout_t *layout, int *widths, int cols, int gutter, const char *left, const char *mid, const char *right) {
+static void draw_border(gig_layout_t *layout, int *widths, int cols, int gutter, int indent, const char *left, const char *mid, const char *right) {
     char buf[65536];
-    int b_idx = snprintf(buf, sizeof(buf), "%*s%s", gutter + 7, "", GIG_CLR_GREY);
+    int b_idx = snprintf(buf, sizeof(buf), "%*s%s", gutter + indent, "", GIG_CLR_GREY);
     
     if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s", left);
     for (int i = 0; i < cols; i++) {
@@ -27,7 +27,7 @@ static void draw_border(gig_layout_t *layout, int *widths, int cols, int gutter,
     gig_layout_add_line(layout, buf);
 }
 
-void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_w, int gutter) {
+void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_w, int gutter, int indent) {
     gig_block_t *row = *curr_ptr;
     gig_block_t *temp = row;
     int row_count = 0;
@@ -64,7 +64,7 @@ void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_
     }
 
     int sep_w = (max_cols + 1) + (max_cols - 1); // Vertical lines + spacing
-    int avail_w = content_w - 7 - sep_w - (max_cols * 2); // gutter + indent + borders + cell padding
+    int avail_w = content_w - indent - sep_w - (max_cols * 2); // gutter + indent + borders + cell padding
     if (avail_w < max_cols * 4) avail_w = max_cols * 4;
 
     int total_req = 0;
@@ -103,7 +103,7 @@ void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_
     }
 
     // Top Border: ┌───┬───┐
-    draw_border(layout, col_widths, max_cols, gutter, "\xe2\x94\x8c", "\xe2\x94\xac", "\xe2\x94\x90");
+    draw_border(layout, col_widths, max_cols, gutter, indent, "\xe2\x94\x8c", "\xe2\x94\xac", "\xe2\x94\x90");
 
     temp = row;
     for (int r = 0; r < row_count; r++) {
@@ -130,7 +130,7 @@ void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_
 
         for (int h = 0; h < max_h; h++) {
             char buf[65536];
-            int b_idx = snprintf(buf, sizeof(buf), "%*s%s\xe2\x94\x82%s", gutter + 7, "", GIG_CLR_GREY, GIG_CLR_RESET);
+            int b_idx = snprintf(buf, sizeof(buf), "%*s%s\xe2\x94\x82%s", gutter + indent, "", GIG_CLR_GREY, GIG_CLR_RESET);
             
             for (int col = 0; col < max_cols; col++) {
                 if (b_idx < (int)sizeof(buf) - 1024) b_idx += sprintf(buf + b_idx, " ");
@@ -159,9 +159,9 @@ void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_
         free(cell_layouts);
 
         if (r < row_count - 1) {
-            draw_border(layout, col_widths, max_cols, gutter, "\xe2\x94\x9c", "\xe2\x94\xbc", "\xe2\x94\xa4");
+            draw_border(layout, col_widths, max_cols, gutter, indent, "\xe2\x94\x9c", "\xe2\x94\xbc", "\xe2\x94\xa4");
         } else {
-            draw_border(layout, col_widths, max_cols, gutter, "\xe2\x94\x94", "\xe2\x94\xb4", "\xe2\x94\x98");
+            draw_border(layout, col_widths, max_cols, gutter, indent, "\xe2\x94\x94", "\xe2\x94\xb4", "\xe2\x94\x98");
         }
         temp = temp->next;
     }

@@ -13,18 +13,29 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
 
     gig_layout_t *layout = calloc(1, sizeof(gig_layout_t));
     
-    int content_w = 72;
-    int gutter = 4;
+    int content_w;
+    int gutter;
 
-    if (screen_width > (content_w + 10)) {
-        gutter = (screen_width - content_w) / 2;
-    } else if (screen_width > 40) {
-        content_w = screen_width - 10;
-        gutter = 4;
-    } else {
+    // Golden Responsive Container Logic
+    if (screen_width <= 40) {
         content_w = screen_width - 2;
         gutter = 1;
+    } else if (screen_width <= 84) {
+        content_w = screen_width - 8;
+        gutter = 4;
+    } else {
+        content_w = (int)(screen_width * 0.80);
+        if (content_w > 80) content_w = 80;
+        gutter = (screen_width - content_w) / 2;
     }
+
+    // Proportional Indents (The Staircase)
+    int indent_text = (int)(content_w * 0.10);
+    int indent_deep = (int)(content_w * 0.15);
+    
+    // Ensure minimum indents for legibility
+    if (indent_text < 4) indent_text = 4;
+    if (indent_deep < 6) indent_deep = 6;
 
     gig_block_t *curr = doc->blocks;
     int first_block = 1;
@@ -36,7 +47,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
         
         switch (type) {
             case GIG_BLOCK_TABLE: {
-                gig_render_table(layout, &curr, content_w, gutter);
+                gig_render_table(layout, &curr, content_w, gutter, indent_text);
                 continue; 
             }
 
@@ -55,7 +66,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
             case GIG_BLOCK_SUBHEADER: {
                 if (!first_block) gig_layout_add_line(layout, "");
                 char buf[2048];
-                snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + 3, "", GIG_CLR_SUB, curr->content, GIG_CLR_RESET);
+                snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + (indent_text / 2), "", GIG_CLR_SUB, curr->content, GIG_CLR_RESET);
                 gig_layout_add_line(layout, buf);
                 break;
             }
@@ -66,12 +77,12 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
                 
                 if (curr->term && strlen(curr->term) > 0) {
                     char buf[4096];
-                    snprintf(buf, sizeof(buf), "%*s%s", gutter + 7, "", proc_term);
+                    snprintf(buf, sizeof(buf), "%*s%s", gutter + indent_text, "", proc_term);
                     gig_layout_add_line(layout, buf);
                 }
                 
                 if (curr->content && strlen(curr->content) > 0) {
-                    gig_wrap_text(layout, proc_desc, content_w - 11, gutter + 11);
+                    gig_wrap_text(layout, proc_desc, content_w - indent_deep, gutter + indent_deep);
                 }
                 
                 free(proc_term);
@@ -81,15 +92,25 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
 
             case GIG_BLOCK_EXAMPLE: {
                 char *proc = gig_inline_process(curr->content);
-                gig_wrap_text(layout, proc, content_w - 11, gutter + 11);
+                gig_wrap_text(layout, proc, content_w - indent_deep, gutter + indent_deep);
                 free(proc);
                 break;
             }
 
             case GIG_BLOCK_LITERAL: {
                 char buf[4096];
-                // Literal blocks: 11-space indentation, no wrapping, no inline parsing
-                snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + 11, "", GIG_CLR_LITERAL, curr->content, GIG_CLR_RESET);
+                int max_len = content_w - indent_deep;
+                int actual_len = strlen(curr->content);
+
+                if (actual_len > max_len && max_len > 3) {
+                    char truncated[4096];
+                    strncpy(truncated, curr->content, max_len - 3);
+                    truncated[max_len - 3] = '\0';
+                    strcat(truncated, "...");
+                    snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + indent_deep, "", GIG_CLR_LITERAL, truncated, GIG_CLR_RESET);
+                } else {
+                    snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + indent_deep, "", GIG_CLR_LITERAL, curr->content, GIG_CLR_RESET);
+                }
                 gig_layout_add_line(layout, buf);
                 break;
             }
@@ -98,7 +119,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
             case GIG_BLOCK_BULLET:
             case GIG_BLOCK_QUOTE: {
                 char *proc = gig_inline_process(curr->content);
-                int indent = (curr->type == GIG_BLOCK_TEXT) ? 7 : 11;
+                int indent = (curr->type == GIG_BLOCK_TEXT) ? indent_text : indent_deep;
                 
                 if (curr->type == GIG_BLOCK_BULLET) {
                     char *tmp = malloc(strlen(proc) + 64);

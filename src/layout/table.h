@@ -4,6 +4,6 @@
 #include "layout.h"
 #include "parser/gig.h"
 
-void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_w, int gutter);
+void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_w, int gutter, int indent);
 
 #endif
