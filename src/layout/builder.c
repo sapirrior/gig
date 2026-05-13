@@ -25,7 +25,6 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
         gutter = 4;
     } else {
         content_w = (int)(screen_width * 0.80);
-        if (content_w > 80) content_w = 80;
         gutter = (screen_width - content_w) / 2;
     }
 
