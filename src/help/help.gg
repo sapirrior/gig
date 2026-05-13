@@ -6,12 +6,10 @@
 ---
 
 # NAME
-. gig - General Interactive Guide navigation and usage
+. gig-help - Navigation and syntax reference for the GIG engine
 
 # SYNOPSIS
-$ gig [section] <name>
-$ gig view <file.gg>
-$ gig help
+. Press 'h' within the pager to access this guide.
 
 # NAVIGATION
 | Key | Action
@@ -21,25 +19,26 @@ $ gig help
 | g, G | Jump to Start / End
 | / | Search for text
 | n, N | Find Next / Previous match
-| h | Open this help guide
-| q | Exit gig
+| h | Refresh this help guide
+| q | Exit current guide / Close help
 
 # SYNTAX
-- ! : Literal Line (No wrapping, no formatting, Sage color)
-- # : Main Header (Gold)
-- ## : Sub Header (Tan)
-- * : Bullet Item
-- - : Definition List (- term : desc)
-- $ : Command Example
-- > : Block Quote
-- | : Table Pipe
+- ! : Literal Line. Technical blocks with smart truncation.
+- # : Main Header.
+- ## : Sub Header.
+- . : Standard Paragraph.
+- * : Bullet Item.
+- - : Definition List (- term : desc).
+- $ : Command Example.
+- > : Block Quote.
+- | : Table Pipe.
 
 # COMMANDS
-- view : Open a local .gg file directly.
-- path : Display the current search path for guides.
-- version : Show the current version of the engine.
-- sections : Print the manual section reference.
-- help : Open this interactive help guide.
+- view <file> : Open a local .gg file.
+- path : Display the guide search path.
+- version : Display the current engine version.
+- sections : Display manual section reference.
+- help : Open this interactive guide.
 
-# ABOUT
-. `gig` is a C11/POSIX engine for viewing structured documentation. It uses a semantic layout engine to optimize readability in the terminal.
+# SPECIFICATION
+. GIG v2.0 utilizes a fluid layout model. Headers are at 0% indent, body text at 10%, and deep semantic blocks (bullets, quotes, literals) at 15%.
