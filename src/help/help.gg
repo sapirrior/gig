@@ -24,6 +24,16 @@ $ gig help
 | h | Open this help guide
 | q | Exit gig
 
+# SYNTAX
+- ! : Literal Line (No wrapping, no formatting, Sage color)
+- # : Main Header (Gold)
+- ## : Sub Header (Tan)
+- * : Bullet Item
+- - : Definition List (- term : desc)
+- $ : Command Example
+- > : Block Quote
+- | : Table Pipe
+
 # COMMANDS
 - view : Open a local .gg file directly.
 - path : Display the current search path for guides.

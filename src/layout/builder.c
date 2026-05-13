@@ -86,6 +86,14 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
                 break;
             }
 
+            case GIG_BLOCK_LITERAL: {
+                char buf[4096];
+                // Literal blocks: 11-space indentation, no wrapping, no inline parsing
+                snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + 11, "", GIG_CLR_LITERAL, curr->content, GIG_CLR_RESET);
+                gig_layout_add_line(layout, buf);
+                break;
+            }
+
             case GIG_BLOCK_TEXT:
             case GIG_BLOCK_BULLET:
             case GIG_BLOCK_QUOTE: {

@@ -20,6 +20,7 @@ gig_block_type_t gig_lexer_identify(const char *line) {
     if (line[0] == '>' && line[1] == ' ') return GIG_BLOCK_QUOTE;
     if (line[0] == '|' && line[1] == ' ') return GIG_BLOCK_TABLE;
     if (line[0] == '-' && line[1] == ' ') return GIG_BLOCK_DEF;
+    if (line[0] == '!' && line[1] == ' ') return GIG_BLOCK_LITERAL;
     if (line[0] == '.' && line[1] == ' ') return GIG_BLOCK_TEXT;
 
     // If it doesn't start with a trigger and isn't a continuation, it's unknown

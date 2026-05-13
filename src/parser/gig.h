@@ -14,6 +14,7 @@ typedef enum {
     GIG_BLOCK_EXAMPLE,   // $
     GIG_BLOCK_QUOTE,     // >
     GIG_BLOCK_TABLE,     // |
+    GIG_BLOCK_LITERAL,   // !
     GIG_BLOCK_EMPTY      // Spacing
 } gig_block_type_t;
 

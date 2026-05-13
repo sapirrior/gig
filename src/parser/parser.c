@@ -73,6 +73,7 @@ gig_doc_t* gig_parse_file(const char *path) {
             else if (type == GIG_BLOCK_EXAMPLE) content = line + 2;
             else if (type == GIG_BLOCK_QUOTE) content = line + 2;
             else if (type == GIG_BLOCK_TABLE) content = line + 2;
+            else if (type == GIG_BLOCK_LITERAL) content = line + 2;
             else if (type == GIG_BLOCK_TEXT) content = line + 2;
             else if (type == GIG_BLOCK_DEF) {
                 const char *sep = strchr(line + 1, ':');
