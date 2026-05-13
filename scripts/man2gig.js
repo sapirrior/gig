@@ -22,7 +22,7 @@ try {
     // Get clean man page text
     const cmd = section ? `man ${section} ${name}` : `man ${name}`;
     const rawContent = execSync(`${cmd} | col -b`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    let lines = rawContent.split('\n').map(l => l.replace(/\t/g, '    ')); // 4-space tabs for consistency
+    let lines = rawContent.split('\n').map(l => l.replace(/\t/g, '        ')); // Standard 8-space tabs
 
     // Filter out trailing empty lines and the footer line
     while (lines.length > 0 && !lines[lines.length - 1].trim()) lines.pop();
@@ -68,7 +68,7 @@ try {
 
         // Flag / Definition Detection
         if (content.match(/^-(?:[a-zA-Z0-9]|-[a-z0-9-]+)/)) {
-            const parts = content.split(/\s{2,}/);
+            const parts = content.split(/\s{3,}/);
             if (parts.length > 1) {
                 output.push(`- ${parts[0]} : ${parts.slice(1).join(' ')}`);
             } else {
@@ -99,28 +99,29 @@ try {
             continue;
         }
 
-        // Table Heuristic
-        if (content.includes('   ')) {
-            const parts = content.split(/\s{2,}/).filter(p => p.length > 0);
-            if (parts.length > 1) {
-                output.push(`| ${parts.join(' | ')}`);
-                continue;
+        // Table Heuristic (Extremely conservative)
+        const tableParts = content.split(/\s{5,}/).filter(p => p.length > 0);
+        if (tableParts.length >= 2 && !content.startsWith('-')) {
+            const hasSentencePunct = content.match(/[\.!\?]\s{2,}/);
+            const isVeryLong = tableParts.some(p => p.length > 40);
+            
+            if (!hasSentencePunct && !isVeryLong) {
+                if (tableParts.length >= 3 || (tableParts.length === 2 && tableParts[0].length < 20)) {
+                    output.push(`| ${tableParts.join(' | ')}`);
+                    continue;
+                }
             }
         }
 
         // Indentation Analysis
         if (indent > 0) {
             if (indent < 7) {
-                // Sub-header (Indented 3-4 but not a flag/bullet)
                 output.push(`## ${content}`);
-            } else if (indent >= 12) {
-                // Highly indented: Block Quote / Example
+            } else if (indent >= 14) {
                 output.push(`> ${content}`);
             } else {
-                // Moderate indentation: Continuation or new Text block
-                // Don't continue into headers or empty space
                 const last = output.length > 0 ? output[output.length - 1].trim() : '';
-                if (last === '' || last.startsWith('#') || last.startsWith('---')) {
+                if (last === '' || last.startsWith('#') || last.startsWith('---') || last.startsWith('|') || last.startsWith('-')) {
                     output.push(`. ${content}`);
                 } else {
                     output.push(`  ${content}`);
@@ -129,7 +130,6 @@ try {
             continue;
         }
 
-        // Column 0 Text
         output.push(`. ${content}`);
     }
 
