@@ -17,7 +17,7 @@ This directory contains the deep technical specifications and architectural cons
 - **Strict Adherence:** All code must remain C11 and POSIX compliant.
 - **No Hyperbole:** Documentation and comments must remain objective and technical.
 - **Modular Growth:** New features must be integrated into the existing modular structure (`src/parser/`, `src/layout/`, etc.).
-- **Visual Integrity:** Any changes to the layout must respect the 72-character viewport and the 0-3-7-11 indentation model.
+- **Visual Integrity:** Any changes to the layout must respect the Golden Responsive Staircase model (Fluid 80% width with 10%/15% proportional indentation).
 
 ## 4. Key Symbols
 - `gig_doc_t`: Root document object.

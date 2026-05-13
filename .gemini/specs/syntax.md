@@ -24,14 +24,15 @@ Uses First-Character Triggers for O(1) block detection.
 
 | Trigger | Meaning | Rule |
 | :--- | :--- | :--- |
-| `# ` | Heading | Primary section title (Level 0). |
-| `## ` | Sub-heading | Category or group title (Level 3). |
-| `. ` | Body | Standard paragraph text (Level 7). |
-| `| ` | Table Row | Forms a wrapped Unicode grid (Level 7). |
+| `# ` | Heading | Primary section title (Indent 0). |
+| `## ` | Sub-heading | Category or group title (Indent Variable). |
+| `. ` | Body | Standard paragraph text (Indent 10%). |
+| `! ` | Literal | Unformatted/Non-wrapping technical text (Indent 15%). |
+| `| ` | Table Row | Forms a wrapped Unicode grid (Indent 10%). |
 | `- ` | Definition | `Term : Description` (Split by first `:`) |
-| `* ` | Bullet | Standard indented list item (Level 11). |
-| `$ ` | Example | Command-line example (Level 11). |
-| `> ` | Quote | Pro-tips or warnings (Level 11). |
+| `* ` | Bullet | Standard indented list item (Indent 15%). |
+| `$ ` | Example | Command-line example (Indent 15%). |
+| `> ` | Quote | Pro-tips or warnings (Indent 15%). |
 | ` ` | Continuation | Appends to the previous block. |
 
 ---

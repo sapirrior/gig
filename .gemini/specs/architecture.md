@@ -15,10 +15,11 @@
 - **Document Model:** Linked-list of semantic blocks.
 
 ### 2. The Layout Engine (`src/layout/`)
-- **Viewport Boundary:** Centering content within a 72-character width.
-- **Indentation Model:** 0 (Headers), 3 (Sub), 7 (Body/Tables), 11 (Deep/Quotes).
+- **Viewport Boundary:** Golden Responsive Staircase scaling to 80% of terminal width.
+- **Indentation Model:** Fluid percentages (0%, 10%, 15%) for headers, body, and deep content.
 - **ANSI-Aware Wrapping:** Preserves formatting across line breaks.
 - **Table Engine:** Scales columns and wraps content inside cells.
+- **Literal Truncation:** Smart ellipsis (...) for overflowing literal (!) lines.
 
 
 ### 3. The Interactive Pager (`src/pager/`)

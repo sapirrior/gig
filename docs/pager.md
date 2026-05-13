@@ -11,14 +11,14 @@ The `gig` pager is designed to provide a structured environment intended to redu
 - **Deep Clay:** Used for the status bar.
 
 ## 2. Layout & Viewport
-Readability is influenced by line length. `gig` implements a **72-character viewport boundary** regardless of terminal width. This maintains a consistent scanning distance for the reader.
+Readability is influenced by line length. `gig` implements a **Golden Responsive Staircase** that scales the content width to 80% of the terminal while maintaining balanced margins.
 
 ### The Indentation Model
-To help navigate documents, a progressive indentation system is used:
-- **Level 0 (Indent 0):** Major section headers.
-- **Level 3 (Indent 3):** Sub-headers.
-- **Level 7 (Indent 7):** The primary viewport for body text and tables.
-- **Level 11 (Indent 11):** Examples and quotes.
+To help navigate documents, a fluid percentage-based indentation system is used:
+- **Major Headers:** Indent 0.
+- **Sub-headers:** Indent proportional to text level.
+- **Body Text:** Indent calculated at 10% of content width.
+- **Deep Content:** Indent calculated at 15% of content width (Bullets, Examples, Quotes, Literal Blocks).
 
 
 ## 3. Navigation Controls

@@ -13,7 +13,7 @@ Translates `.gg` files into a document object.
 
 ### The Layout Engine (`src/layout/`)
 Translates the document into a formatted grid.
-- `builder.c`: Implements viewport and indentation rules.
+- `builder.c`: Implements the Golden Responsive Staircase (fluid percentage-based layout).
 - `table.c`: Rendering system for wrapped Unicode tables.
 - `inline.c`: Processes semantic tokens (bold, commands, links).
 - `wrap.c`: Handles ANSI-safe word wrapping.

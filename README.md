@@ -7,10 +7,10 @@
 
 ## ✨ Features
 
-- **Viewport Configuration:** Content is rendered within a 72-character width boundary to optimize readability.
+- **Fluid Golden Layout:** Content scales to 80% of terminal width with a balanced responsive staircase indentation.
 - **Organic Palette:** A color scheme (Cream, Sage, Terracotta) optimized for terminal visibility.
 - **Table Engine:** Support for multi-line cell wrapping within a Unicode grid system.
-- **Structural Hierarchy:** Implementation of a consistent indentation model (0-3-7-11 rule) for document navigation.
+- **Literal Lines:** Support for unformatted, non-wrapping technical blocks with smart truncation.
 - **Interactive Pager:** Navigation features including case-insensitive search and SIGWINCH-responsive layout recalculation.
 - **Modular Design:** An architecture organized into distinct functional sub-systems.
 

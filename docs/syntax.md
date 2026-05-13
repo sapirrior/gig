@@ -32,7 +32,8 @@ Each line in your guide must begin with a semantic trigger followed by a space.
 | :--- | :--- | :--- |
 | `# ` | **Header** | Top-level section names (e.g., NAME, SYNOPSIS). |
 | `## ` | **Subheader** | Groups within a section (e.g., Navigation Keys). |
-| `. ` | **Body** | Standard paragraphs. Wraps at the 72-character boundary. |
+| `. ` | **Body** | Standard paragraphs. Wraps based on the fluid viewport width. |
+| `! ` | **Literal** | Technical lines that skip wrapping and formatting (e.g., code). |
 | `| ` | **Table** | Creates a structured grid with automatic headers and wrapping. |
 | `- ` | **Definition** | Formatted as `Term : Description` for flags and parameters. |
 | `* ` | **Bullet** | Standard list items. |
