@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
     
     if (layout) {
         // 3. Page
-        gig_pager_run(doc, layout);
+        gig_pager_run(doc, &layout);
         gig_layout_free(layout);
     }
 
