@@ -11,7 +11,7 @@
 #include "ui/colors.h"
 
 void print_usage(const char *prog) {
-    printf("Usage: %s [section] <name>\n", prog);
+    printf("usage: %s [section] <name>\n", prog);
     printf("       %s view <file.gg>\n", prog);
     printf("       %s path\n", prog);
     printf("       %s version\n", prog);
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "view") == 0) {
         if (argc < 3) {
-            fprintf(stderr, "Error: Specify a file to view.\n");
+            fprintf(stderr, "fatal: missing file operand for 'view'\n");
             return 1;
         }
         target_path = strdup(argv[2]);
@@ -63,21 +63,20 @@ int main(int argc, char *argv[]) {
     }
 
     if (!target_path) {
-        fprintf(stderr, "Error: No GIG found for '%s'\n", argv[argc-1]);
+        fprintf(stderr, "fatal: no guide found for '%s'\n", argv[argc-1]);
         return 1;
     }
 
     // 1. Parse
     gig_doc_t *doc = gig_parse_file(target_path);
     if (!doc) {
-        fprintf(stderr, "Error: Could not open %s\n", target_path);
+        fprintf(stderr, "fatal: could not access '%s'\n", target_path);
         free(target_path);
         return 1;
     }
 
     if (doc->error.message) {
-        fprintf(stderr, "\n  %sSTRICT VALIDATION FAILURE%s\n", GIG_CLR_FLAG, GIG_CLR_RESET);
-        fprintf(stderr, "  %sLine %d:%s %s\n\n", GIG_CLR_GREY, doc->error.line_num, GIG_CLR_RESET, doc->error.message);
+        fprintf(stderr, "validation failed: %s (line %d)\n", doc->error.message, doc->error.line_num);
         gig_free_doc(doc);
         free(target_path);
         return 1;
