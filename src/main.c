@@ -15,6 +15,7 @@ void print_usage(const char *prog) {
     printf("       %s view <file.gg>\n", prog);
     printf("       %s path\n", prog);
     printf("       %s version\n", prog);
+    printf("       %s help\n", prog);
 }
 
 int main(int argc, char *argv[]) {
@@ -38,7 +39,9 @@ int main(int argc, char *argv[]) {
 
     char *target_path = NULL;
 
-    if (strcmp(argv[1], "view") == 0) {
+    if (strcmp(argv[1], "help") == 0) {
+        target_path = strdup("src/help/help.gg");
+    } else if (strcmp(argv[1], "view") == 0) {
         if (argc < 3) {
             fprintf(stderr, "fatal: missing file operand for 'view'\n");
             return 1;

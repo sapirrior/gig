@@ -18,12 +18,19 @@ static void handle_sigwinch(int sig) {
 void gig_pager_run(gig_doc_t *doc, gig_layout_t *layout) {
     gig_term_state_t ts;
     gig_terminal_setup(&ts);
-    gig_terminal_get_size(&ts.rows, &ts.cols);
-
+    
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &sa, NULL);
+
+    gig_pager_loop(doc, layout, &ts);
+
+    gig_terminal_restore(&ts);
+}
+
+void gig_pager_loop(gig_doc_t *doc, gig_layout_t *layout, gig_term_state_t *ts) {
+    gig_terminal_get_size(&ts->rows, &ts->cols);
 
     int scroll_y = 0;
     int running = 1;
@@ -32,8 +39,8 @@ void gig_pager_run(gig_doc_t *doc, gig_layout_t *layout) {
 
     while (running) {
         if (resize_pending) {
-            gig_terminal_get_size(&ts.rows, &ts.cols);
-            gig_layout_t *new_layout = gig_layout_build(doc, ts.cols);
+            gig_terminal_get_size(&ts->rows, &ts->cols);
+            gig_layout_t *new_layout = gig_layout_build(doc, ts->cols);
             if (new_layout) {
                 gig_layout_free(layout);
                 layout = new_layout;
@@ -43,7 +50,7 @@ void gig_pager_run(gig_doc_t *doc, gig_layout_t *layout) {
         }
 
         if (needs_redraw) {
-            gig_pager_draw_screen(doc, layout, &ts, scroll_y, search_query);
+            gig_pager_draw_screen(doc, layout, ts, scroll_y, search_query);
             needs_redraw = 0;
         }
 
@@ -51,14 +58,32 @@ void gig_pager_run(gig_doc_t *doc, gig_layout_t *layout) {
         if (key == -1) break;    
         if (key == -2) continue; 
 
-        int viewport_h = ts.rows - 4; 
+        int viewport_h = ts->rows - 4; 
         int max_scroll = layout->count - viewport_h;
         if (max_scroll < 0) max_scroll = 0;
 
         switch (key) {
+            case 'h':
+            case 'H': {
+                gig_doc_t *h_doc = gig_parse_file("src/help/help.gg");
+                if (h_doc) {
+                    if (!h_doc->error.message) {
+                        gig_layout_t *h_layout = gig_layout_build(h_doc, ts->cols);
+                        if (h_layout) {
+                            gig_pager_loop(h_doc, h_layout, ts);
+                            gig_layout_free(h_layout);
+                        }
+                    }
+                    gig_free_doc(h_doc);
+                    needs_redraw = 1;
+                }
+                break;
+            }
+
             case '/':
-                gig_pager_prompt(&ts, "/", search_query, sizeof(search_query));
+                gig_pager_prompt(ts, "/", search_query, sizeof(search_query));
                 needs_redraw = 1;
+                break;
             case 'n':
                 if (search_query[0]) {
                     for (int i = scroll_y + 1; i < layout->count; i++) {
@@ -174,6 +199,4 @@ void gig_pager_run(gig_doc_t *doc, gig_layout_t *layout) {
         
         if (scroll_y > max_scroll) scroll_y = max_scroll;
     }
-
-    gig_terminal_restore(&ts);
 }
