@@ -21,7 +21,7 @@ static void draw_border(gig_layout_t *layout, int *widths, int cols, int gutter,
             if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s", mid);
         }
     }
-    if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s%s", right, GIG_CLR_RESET);
+    if (b_idx < (int)sizeof(buf) - 64) sprintf(buf + b_idx, "%s%s", right, GIG_CLR_RESET);
     
     void gig_layout_add_line(gig_layout_t *layout, const char *line);
     gig_layout_add_line(layout, buf);
