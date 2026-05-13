@@ -31,11 +31,17 @@ gig_doc_t* gig_parse_file(const char *path) {
             }
             if (gig_lexer_is_metadata(line)) {
                 int res = gig_parse_meta_line(line, doc);
-                if (res == 0) {
-                    gig_set_error(doc, line_num, "Invalid metadata format. Use: @key \"value\"");
-                    break;
-                } else if (res == -1) {
-                    gig_set_error(doc, line_num, "Unauthorized metadata key. Forbidden.");
+                if (res != 0) {
+                    const char *msg = "invalid metadata syntax";
+                    if (res == -2) msg = "missing space after @key";
+                    else if (res == -3) msg = "metadata key is empty";
+                    else if (res == -4) msg = "metadata key exceeds 128 bytes";
+                    else if (res == -5) msg = "missing opening quote for value";
+                    else if (res == -6) msg = "missing closing quote for value";
+                    else if (res == -7) msg = "metadata value exceeds 1024 bytes";
+                    else if (res == -8) msg = "unauthorized metadata key";
+                    
+                    gig_set_error(doc, line_num, msg);
                     break;
                 }
             } else if (strlen(line) > 0) {
@@ -71,7 +77,7 @@ gig_doc_t* gig_parse_file(const char *path) {
             else if (type == GIG_BLOCK_DEF) {
                 const char *sep = strchr(line + 1, ':');
                 if (!sep) {
-                    gig_set_error(doc, line_num, "Definition formation error. Missing ':' separator.");
+                    gig_set_error(doc, line_num, "definition requires ':' separator (e.g., - term : desc)");
                     break;
                 }
                 size_t t_len = sep - (line + 1);
@@ -80,7 +86,7 @@ gig_doc_t* gig_parse_file(const char *path) {
                 term[t_len] = '\0';
                 content = sep + 1;
             } else {
-                gig_set_error(doc, line_num, "Unknown block formation. Every line must start with a trigger (#, ##, *, -, $, >) or space.");
+                gig_set_error(doc, line_num, "unsupported block trigger or malformed line");
                 break;
             }
 
