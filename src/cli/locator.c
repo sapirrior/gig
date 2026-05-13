@@ -18,11 +18,8 @@ const char* gig_get_path_string(void) {
 char* gig_locate_page(const char *section, const char *name) {
     if (!name) return NULL;
 
-    // Check if name is already a direct path (like "file.gg")
-    struct stat st;
-    if (stat(name, &st) == 0) return strdup(name);
-
     char path[1024];
+    struct stat st;
     const char *target_section = section ? section : "1";
 
     snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, target_section, name);
