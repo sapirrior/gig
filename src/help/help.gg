@@ -5,40 +5,40 @@
 @updated "2026-05-13"
 ---
 
-# NAME
-. gig-help - Navigation and syntax reference for the GIG engine
+# WELCOME TO GIG!
+. Welcome to your new favorite way to explore documentation! GIG is designed to be your faithful companion as you navigate through technical guides and manuals. Let's get you ready for your journey!
 
-# SYNOPSIS
-. Press 'h' within the pager to access this guide.
+# NAVIGATING THE PATH
+. Moving around is easy and feels just like your favorite pager. Grab your keyboard and try these:
+| Key | Your Adventure
+| j, k | Step Down / Step Up
+| d, u | Leap Down / Leap Up (Half-page)
+| f, b | Fly Down / Fly Up (Full-page)
+| g, G | Teleport to Start / Teleport to End
+| / | Search for hidden treasures (text)
+| n, N | Find the Next / Previous match
+| h | Stay here! (Refresh this help guide)
+| q | Go back / Exit your journey
 
-# NAVIGATION
-| Key | Action
-| j, k | Scroll Down / Up
-| d, u | Half-page Down / Up
-| f, b | Full-page Down / Up
-| g, G | Jump to Start / End
-| / | Search for text
-| n, N | Find Next / Previous match
-| h | Refresh this help guide
-| q | Exit current guide / Close help
+# THE LANGUAGE OF GIG
+. Documentation in GIG uses simple "triggers" to make everything look beautiful. Here is what you'll encounter on your travels:
+- # : The Great Header (Your primary landmark)
+- ## : The Sub Header (A local signpost)
+- ! : The Literal Block (Raw technical data, clean and untouched)
+- . : A simple story (Your standard paragraph)
+- * : A quick point (Bullet item)
+- - : A definition (- name : what it is)
+- $ : A command for your shell
+- > : Wisdom from others (A block quote)
+- | : The Great Grid (Organized tables)
 
-# SYNTAX
-- ! : Literal Line. Technical blocks with smart truncation.
-- # : Main Header.
-- ## : Sub Header.
-- . : Standard Paragraph.
-- * : Bullet Item.
-- - : Definition List (- term : desc).
-- $ : Command Example.
-- > : Block Quote.
-- | : Table Pipe.
+# YOUR TOOLKIT
+. You have a few powerful commands at your disposal:
+- view <file> : Open any .gg file you've discovered on your disk.
+- path : See where GIG looks for its library of guides.
+- version : Check which version of GIG you are currently using.
+- sections : Look at the map of manual sections (1-9).
+- help : You are here! Come back anytime you need a hand.
 
-# COMMANDS
-- view <file> : Open a local .gg file.
-- path : Display the guide search path.
-- version : Display the current engine version.
-- sections : Display manual section reference.
-- help : Open this interactive guide.
-
-# SPECIFICATION
-. GIG v2.0 utilizes a fluid layout model. Headers are at 0% indent, body text at 10%, and deep semantic blocks (bullets, quotes, literals) at 15%.
+# ENJOY THE RIDE!
+. GIG uses a "Golden Staircase" layout to make reading easy on your eyes. Go forth and explore the manuals!
