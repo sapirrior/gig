@@ -1,7 +1,7 @@
 # gig: General Interactive Guide Engine
 
 [![Language: C11](https://img.shields.io/badge/Language-C11-blue.svg)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
-[![License: POSIX](https://img.shields.io/badge/License-POSIX-orange.svg)](https://en.wikipedia.org/wiki/POSIX)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 `gig` is a C11/POSIX engine for viewing GIG-formatted documentation. It provides a semantically structured and interactive interface for terminal-based guides.
 
