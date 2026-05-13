@@ -28,6 +28,7 @@ $ gig help
 - view : Open a local .gg file directly.
 - path : Display the current search path for guides.
 - version : Show the current version of the engine.
+- sections : Print the manual section reference.
 - help : Open this interactive help guide.
 
 # ABOUT

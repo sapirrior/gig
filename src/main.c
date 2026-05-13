@@ -15,6 +15,7 @@ void print_usage(const char *prog) {
     printf("       %s view <file.gg>\n", prog);
     printf("       %s path\n", prog);
     printf("       %s version\n", prog);
+    printf("       %s sections\n", prog);
     printf("       %s help\n", prog);
 }
 
@@ -29,6 +30,22 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "path") == 0) {
         printf("%s\n", gig_get_path_string());
+        return 0;
+    }
+
+    if (strcmp(argv[1], "sections") == 0) {
+        printf("GIG Section Reference:\n");
+        printf("  1  User Commands\n");
+        printf("  2  System Calls\n");
+        printf("  3  Library Functions\n");
+        printf("  4  Special Files & Devices\n");
+        printf("  5  File Formats & Conventions\n");
+        printf("  6  Games & Demos\n");
+        printf("  7  Miscellaneous & Specifications\n");
+        printf("  8  System Administration\n");
+        printf("  9  Kernel Routines\n");
+        printf("  n  New / Pending Guides\n");
+        printf("  l  Local / Project Specific\n");
         return 0;
     }
 
