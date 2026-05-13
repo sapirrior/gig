@@ -5,6 +5,7 @@
 
 void gig_wrap_text(gig_layout_t *layout, const char *text, int width, int left_pad) {
     if (!text || !layout) return;
+    if (width < 1) width = 1; // Safeguard against infinite loops on small terminals
 
     const char *p = text;
     char line_buf[8192];

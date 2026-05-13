@@ -9,17 +9,19 @@
 #include <ctype.h>
 
 static void draw_border(gig_layout_t *layout, int *widths, int cols, int gutter, const char *left, const char *mid, const char *right) {
-    char buf[8192];
-    int b_idx = sprintf(buf, "%*s%s", gutter + 7, "", GIG_CLR_GREY);
+    char buf[65536];
+    int b_idx = snprintf(buf, sizeof(buf), "%*s%s", gutter + 7, "", GIG_CLR_GREY);
     
-    b_idx += sprintf(buf + b_idx, "%s", left);
+    if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s", left);
     for (int i = 0; i < cols; i++) {
         for (int j = 0; j < widths[i] + 2; j++) {
-            b_idx += sprintf(buf + b_idx, "\xe2\x94\x80"); // ─
+            if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "\xe2\x94\x80"); // ─
         }
-        if (i < cols - 1) b_idx += sprintf(buf + b_idx, "%s", mid);
+        if (i < cols - 1) {
+            if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s", mid);
+        }
     }
-    sprintf(buf + b_idx, "%s%s", right, GIG_CLR_RESET);
+    if (b_idx < (int)sizeof(buf) - 64) b_idx += sprintf(buf + b_idx, "%s%s", right, GIG_CLR_RESET);
     
     void gig_layout_add_line(gig_layout_t *layout, const char *line);
     gig_layout_add_line(layout, buf);
@@ -127,22 +129,26 @@ void gig_render_table(gig_layout_t *layout, gig_block_t **curr_ptr, int content_
         free(line_copy);
 
         for (int h = 0; h < max_h; h++) {
-            char buf[16384];
-            int b_idx = sprintf(buf, "%*s%s\xe2\x94\x82%s", gutter + 7, "", GIG_CLR_GREY, GIG_CLR_RESET);
+            char buf[65536];
+            int b_idx = snprintf(buf, sizeof(buf), "%*s%s\xe2\x94\x82%s", gutter + 7, "", GIG_CLR_GREY, GIG_CLR_RESET);
             
             for (int col = 0; col < max_cols; col++) {
-                b_idx += sprintf(buf + b_idx, " ");
-                if (r == 0) b_idx += sprintf(buf + b_idx, "%s", GIG_CLR_HEADER);
+                if (b_idx < (int)sizeof(buf) - 1024) b_idx += sprintf(buf + b_idx, " ");
+                if (r == 0 && b_idx < (int)sizeof(buf) - 1024) b_idx += sprintf(buf + b_idx, "%s", GIG_CLR_HEADER);
                 
                 int cell_vis = 0;
                 if (h < cell_layouts[col]->count) {
                     const char *cell_line = cell_layouts[col]->lines[h];
                     cell_vis = gig_get_vis_len(cell_line);
-                    b_idx += sprintf(buf + b_idx, "%s", cell_line);
+                    if (b_idx + (int)strlen(cell_line) < (int)sizeof(buf) - 1024) {
+                        b_idx += sprintf(buf + b_idx, "%s", cell_line);
+                    }
                 }
-                for (int i = 0; i < col_widths[col] - cell_vis; i++) buf[b_idx++] = ' ';
-                if (r == 0) b_idx += sprintf(buf + b_idx, "%s", GIG_CLR_RESET);
-                b_idx += sprintf(buf + b_idx, " %s\xe2\x94\x82%s", GIG_CLR_GREY, GIG_CLR_RESET);
+                for (int i = 0; i < col_widths[col] - cell_vis; i++) {
+                    if (b_idx < (int)sizeof(buf) - 1024) buf[b_idx++] = ' ';
+                }
+                if (r == 0 && b_idx < (int)sizeof(buf) - 1024) b_idx += sprintf(buf + b_idx, "%s", GIG_CLR_RESET);
+                if (b_idx < (int)sizeof(buf) - 1024) b_idx += sprintf(buf + b_idx, " %s\xe2\x94\x82%s", GIG_CLR_GREY, GIG_CLR_RESET);
             }
             buf[b_idx] = '\0';
             void gig_layout_add_line(gig_layout_t *layout, const char *line);

@@ -46,7 +46,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
 
             case GIG_BLOCK_HEADER: {
                 if (!first_block) gig_layout_add_line(layout, "");
-                char buf[1024];
+                char buf[2048];
                 snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter, "", GIG_CLR_HEADER, curr->content, GIG_CLR_RESET);
                 gig_layout_add_line(layout, buf);
                 break;
@@ -54,7 +54,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
 
             case GIG_BLOCK_SUBHEADER: {
                 if (!first_block) gig_layout_add_line(layout, "");
-                char buf[1024];
+                char buf[2048];
                 snprintf(buf, sizeof(buf), "%*s%s%s%s", gutter + 3, "", GIG_CLR_SUB, curr->content, GIG_CLR_RESET);
                 gig_layout_add_line(layout, buf);
                 break;
@@ -65,7 +65,7 @@ gig_layout_t* gig_layout_build(gig_doc_t *doc, int screen_width) {
                 char *proc_desc = gig_inline_process(curr->content ? curr->content : "");
                 
                 if (curr->term && strlen(curr->term) > 0) {
-                    char buf[2048];
+                    char buf[4096];
                     snprintf(buf, sizeof(buf), "%*s%s", gutter + 7, "", proc_term);
                     gig_layout_add_line(layout, buf);
                 }

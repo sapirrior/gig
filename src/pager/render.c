@@ -68,7 +68,7 @@ void gig_pager_draw_screen(gig_doc_t *doc, gig_layout_t *layout, gig_term_state_
     char date_str[64];
     strftime(date_str, sizeof(date_str), "%Y-%m-%d", t);
 
-    char left_part[512];
+    char left_part[2048];
     snprintf(left_part, sizeof(left_part), "%s%s%s %s/%s %s%s%s %s%s%s",
         GIG_CLR_SUB, section, GIG_CLR_RESET,
         GIG_CLR_GREY, GIG_CLR_RESET,
@@ -77,9 +77,11 @@ void gig_pager_draw_screen(gig_doc_t *doc, gig_layout_t *layout, gig_term_state_
     
     int vis_len = (int)strlen(section) + (int)strlen(name) + (int)strlen(version) + 4;
     if (author) {
-        char auth_buf[256];
+        char auth_buf[1024];
         snprintf(auth_buf, sizeof(auth_buf), " %sby %s%s", GIG_CLR_GREY, author, GIG_CLR_RESET);
-        strcat(left_part, auth_buf);
+        if (strlen(left_part) + strlen(auth_buf) < sizeof(left_part)) {
+            strcat(left_part, auth_buf);
+        }
         vis_len += (int)strlen(author) + 4;
     }
 
