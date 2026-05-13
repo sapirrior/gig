@@ -68,15 +68,19 @@ int main(int argc, char *argv[]) {
         const char *section = NULL;
         const char *name = NULL;
 
-        if (isdigit((unsigned char)argv[1][0]) && strlen(argv[1]) == 1) {
-            section = argv[1];
-            if (argc < 3) {
-                print_usage(argv[0]);
+        if (argc == 2) {
+            // gig <name>
+            name = argv[1];
+        } else {
+            // gig <section> <name>
+            if (gig_is_valid_section(argv[1])) {
+                section = argv[1];
+                name = argv[2];
+            } else {
+                fprintf(stderr, "fatal: '%s' is not a valid section\n", argv[1]);
+                fprintf(stderr, "hint: run 'gig sections' to see valid sections\n");
                 return 1;
             }
-            name = argv[2];
-        } else {
-            name = argv[1];
         }
 
         target_path = gig_locate_page(section, name);

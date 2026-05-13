@@ -18,26 +18,21 @@ const char* gig_get_path_string(void) {
 char* gig_locate_page(const char *section, const char *name) {
     if (!name) return NULL;
 
-    // Check if name is already a direct path
+    // Check if name is already a direct path (like "file.gg")
     struct stat st;
     if (stat(name, &st) == 0) return strdup(name);
 
     char path[1024];
+    const char *target_section = section ? section : "1";
 
-    if (section) {
-        snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, section, name);
-        if (stat(path, &st) == 0) return strdup(path);
-    } else {
-        // Standard Manual Search Order: 
-        // 1 (Cmds), n (New), l (Local), 8 (Admin), 3 (Lib), 2 (Sys), 
-        // 5 (Formats), 4 (Devices), 9 (Kernel), 6 (Games), 7 (Misc)
-        const char *sections[] = {"1", "n", "l", "8", "3", "2", "5", "4", "9", "6", "7", NULL};
-        
-        for (int i = 0; sections[i]; i++) {
-            snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, sections[i], name);
-            if (stat(path, &st) == 0) return strdup(path);
-        }
-    }
+    snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, target_section, name);
+    if (stat(path, &st) == 0) return strdup(path);
 
     return NULL;
+}
+
+int gig_is_valid_section(const char *s) {
+    if (!s || strlen(s) != 1) return 0;
+    const char *valid = "123456789nl";
+    return strchr(valid, s[0]) != NULL;
 }
