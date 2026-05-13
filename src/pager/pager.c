@@ -65,23 +65,6 @@ void gig_pager_loop(gig_doc_t *doc, gig_layout_t **layout_ptr, gig_term_state_t 
             if (max_scroll < 0) max_scroll = 0;
 
             switch (key) {
-                case 'h':
-                case 'H': {
-                    gig_doc_t *h_doc = gig_parse_file("src/help/help.gg");
-                    if (h_doc) {
-                        if (!h_doc->error.message) {
-                            gig_layout_t *h_layout = gig_layout_build(h_doc, ts->cols);
-                            if (h_layout) {
-                                gig_pager_loop(h_doc, &h_layout, ts);
-                                gig_layout_free(h_layout);
-                            }
-                        }
-                        gig_free_doc(h_doc);
-                        needs_redraw = 1;
-                    }
-                    break;
-                }
-
                 case '/':
                     gig_pager_prompt(ts, "/", search_query, sizeof(search_query));
                     needs_redraw = 1;

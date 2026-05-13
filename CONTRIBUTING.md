@@ -9,7 +9,7 @@ By participating in this project, you agree to maintain a professional and respe
 - **Language:** C11 (POSIX compliant).
 - **Style:** Follow the existing indentation and naming conventions (snake_case for functions and variables).
 - **Modularity:** Ensure new functionality is placed in the appropriate module (`parser/`, `layout/`, `pager/`, etc.).
-- **Objectivity:** Avoid hyperbolic language in documentation and code comments. Use technical, objective descriptions (e.g., "72-character viewport boundary" instead of "Golden Ratio").
+- **Objectivity:** Avoid hyperbolic language in documentation and code comments. Use technical, objective descriptions (e.g., "Golden Responsive Staircase" instead of "the best layout").
 
 ## Development Workflow
 1.  **Fork and Clone:** Create a local copy for your changes.

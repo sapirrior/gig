@@ -8,6 +8,8 @@ The `gig` pager is designed to provide a structured environment intended to redu
 - **Cream:** Used for primary headers.
 - **Sage:** Used for actions and commands.
 - **Terracotta:** Used for variables and values.
+- **Bold Terracotta:** Used for fatal errors.
+- **Orange:** Used for warnings and hints.
 - **Deep Clay:** Used for the status bar.
 
 ## 2. Layout & Viewport

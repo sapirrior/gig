@@ -10,57 +10,51 @@
 
 #include "ui/colors.h"
 
-void print_usage(const char *prog) {
-    printf("usage: %s [section] <name>\n", prog);
-    printf("       %s view <file.gg>\n", prog);
-    printf("       %s path\n", prog);
-    printf("       %s version\n", prog);
-    printf("       %s sections\n", prog);
-    printf("       %s help\n", prog);
-}
+#include "help/help.h"
 
 int main(int argc, char *argv[]) {
     // Set internal GIGPATH for transparency
     setenv("GIGPATH", gig_get_path_string(), 1);
 
     if (argc < 2) {
-        print_usage(argv[0]);
+        gig_help_print_usage(argv[0]);
         return 1;
     }
 
     if (strcmp(argv[1], "path") == 0) {
-        printf("%s\n", gig_get_path_string());
+        printf("%s%s%s\n", GIG_CLR_ARG, gig_get_path_string(), GIG_CLR_RESET);
         return 0;
     }
 
     if (strcmp(argv[1], "sections") == 0) {
-        printf("GIG Section Reference:\n");
-        printf("  1  User Commands\n");
-        printf("  2  System Calls\n");
-        printf("  3  Library Functions\n");
-        printf("  4  Special Files & Devices\n");
-        printf("  5  File Formats & Conventions\n");
-        printf("  6  Games & Demos\n");
-        printf("  7  Miscellaneous & Specifications\n");
-        printf("  8  System Administration\n");
-        printf("  9  Kernel Routines\n");
-        printf("  n  New / Pending Guides\n");
-        printf("  l  Local / Project Specific\n");
+        printf("\n%sGIG Section Reference:%s\n", GIG_CLR_HEADER, GIG_CLR_RESET);
+        printf("  %s1%s  User Commands\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s2%s  System Calls\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s3%s  Library Functions\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s4%s  Special Files & Devices\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s5%s  File Formats & Conventions\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s6%s  Games & Demos\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s7%s  Miscellaneous & Specifications\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s8%s  System Administration\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s9%s  Kernel Routines\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %sn%s  New / Pending Guides\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %sl%s  Local / Project Specific\n\n", GIG_CLR_CMD, GIG_CLR_RESET);
         return 0;
     }
 
     if (strcmp(argv[1], "version") == 0 || strcmp(argv[1], "--version") == 0) {
-        printf("gig %s\n", GIG_VERSION);
+        printf("%sgig %s%s\n", GIG_CLR_BOLD, GIG_VERSION, GIG_CLR_RESET);
         return 0;
     }
 
     char *target_path = NULL;
 
     if (strcmp(argv[1], "help") == 0) {
-        target_path = strdup("src/help/help.gg");
+        gig_help_print_full();
+        return 0;
     } else if (strcmp(argv[1], "view") == 0) {
         if (argc < 3) {
-            fprintf(stderr, "fatal: missing file operand for 'view'\n");
+            fprintf(stderr, "%sfatal:%s missing file operand for 'view'\n", GIG_CLR_ERROR, GIG_CLR_RESET);
             return 1;
         }
         target_path = strdup(argv[2]);
@@ -77,8 +71,8 @@ int main(int argc, char *argv[]) {
                 section = argv[1];
                 name = argv[2];
             } else {
-                fprintf(stderr, "fatal: '%s' is not a valid section\n", argv[1]);
-                fprintf(stderr, "hint: run 'gig sections' to see valid sections\n");
+                fprintf(stderr, "%sfatal:%s '%s' is not a valid section\n", GIG_CLR_ERROR, GIG_CLR_RESET, argv[1]);
+                fprintf(stderr, "%shint:%s run 'gig sections' to see valid sections\n", GIG_CLR_WARN, GIG_CLR_RESET);
                 return 1;
             }
         }
@@ -87,20 +81,20 @@ int main(int argc, char *argv[]) {
     }
 
     if (!target_path) {
-        fprintf(stderr, "fatal: no guide found for '%s'\n", argv[argc-1]);
+        fprintf(stderr, "%sfatal:%s no guide found for '%s'\n", GIG_CLR_ERROR, GIG_CLR_RESET, argv[argc-1]);
         return 1;
     }
 
     // 1. Parse
     gig_doc_t *doc = gig_parse_file(target_path);
     if (!doc) {
-        fprintf(stderr, "fatal: could not access '%s'\n", target_path);
+        fprintf(stderr, "%sfatal:%s could not access '%s'\n", GIG_CLR_ERROR, GIG_CLR_RESET, target_path);
         free(target_path);
         return 1;
     }
 
     if (doc->error.message) {
-        fprintf(stderr, "validation failed: %s (line %d)\n", doc->error.message, doc->error.line_num);
+        fprintf(stderr, "%svalidation failed:%s %s (line %d)\n", GIG_CLR_ERROR, GIG_CLR_RESET, doc->error.message, doc->error.line_num);
         gig_free_doc(doc);
         free(target_path);
         return 1;

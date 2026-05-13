@@ -1,5 +1,5 @@
 CC = clang
-VERSION = 2.0.2
+VERSION = 2.0.3
 CFLAGS = -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200809L -Isrc -MMD -MP -DGIG_VERSION=\"$(VERSION)\"
 LDFLAGS = 
 
@@ -8,6 +8,7 @@ OBJ_DIR = build/obj
 
 # Collect all source files
 SRCS = src/main.c \
+       src/help/help.c \
        src/parser/parser.c \
        src/parser/lexer.c \
        src/parser/metadata.c \

@@ -9,6 +9,8 @@ The `gig` engine pager is designed to provide a structured viewport for terminal
 | **Subheaders** | `223` | #FFDAB9 | Sand |
 | **Actions** | `108` | #87AF87 | Sage |
 | **Values** | `173` | #D7875F | Terracotta |
+| **Errors** | `167` | #D75F5F | Bold Terracotta |
+| **Warnings** | `214` | #FFAF00 | Warm Orange |
 | **Literal** | `108` | #87AF87 | Sage |
 | **Links** | `109` | #87AFAF | Slate Blue |
 | **Status BG** | `95` | #875F5F | Clay |

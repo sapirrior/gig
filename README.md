@@ -8,7 +8,8 @@
 ## ✨ Features
 
 - **Fluid Golden Layout:** Content scales to 80% of terminal width with a balanced responsive staircase indentation.
-- **Organic Palette:** A color scheme (Cream, Sage, Terracotta) optimized for terminal visibility.
+- **Organic Palette:** A professional color scheme (Cream, Sage, Terracotta) with dedicated high-visibility highlights for errors and warnings.
+- **Embedded Help:** Instant, colorful usage and navigation guides built directly into the binary.
 - **Table Engine:** Support for multi-line cell wrapping within a Unicode grid system.
 - **Literal Lines:** Support for unformatted, non-wrapping technical blocks with smart truncation.
 - **Interactive Pager:** Navigation features including case-insensitive search and SIGWINCH-responsive layout recalculation.

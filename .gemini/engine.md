@@ -24,13 +24,16 @@ The parser is a single-pass, line-oriented state machine.
 The layout engine transforms semantic blocks into a `gig_layout_t`, which is essentially an array of pre-rendered, colorized, and wrapped lines.
 
 ### Viewport & Indentation
-- **Boundary:** Fixed at 72 characters visual width.
-- **Staircase Logic:** Indentation levels are hardcoded (0, 3, 7, 11) to enforce a consistent vertical rhythm.
+- **Boundary:** Golden Responsive Staircase. Dynamically scales content width to 80% of the terminal with balanced margins.
+- **Staircase Logic:** Uses proportional, percentage-based indentation for visual hierarchy:
+    - Content Area: 80% of terminal.
+    - Body Indent: 10% of content width.
+    - Deep Block Indent (Bullets/Literals/Quotes): 15% of content width.
 - **ANSI-Aware Wrapping:** `gig_wrap_text` in `wrap.c` calculates visual width by skipping `\x1b[` sequences. It tracks the current ANSI state and resets/restores it at line boundaries to prevent "style bleeding."
 
 ### The Table Engine (`table.c`)
 The most complex part of the layout system.
-- **Column Scaling:** Proportionally reduces column widths to fit the 72-char viewport while respecting a minimum width of 4.
+- **Column Scaling:** Proportionally reduces column widths to fit the dynamic `content_w` while respecting a minimum width of 4.
 - **Internal Warping:** Every cell is essentially a sub-layout. Content is wrapped *within* the allocated column width.
 - **Unicode Grid:** Uses a `draw_border` helper to render consistent UTF-8 box-drawing characters based on the final calculated column widths.
 
