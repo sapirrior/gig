@@ -53,7 +53,7 @@ gig_doc_t* gig_parse_file(const char *path) {
             gig_append_to_last_block(doc, line);
         } else {
             gig_block_type_t type = gig_lexer_identify(line);
-            const char *content = line;
+            const char *content;
             char *term = NULL;
 
             if (type == GIG_BLOCK_EMPTY) {
