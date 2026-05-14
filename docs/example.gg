@@ -2,11 +2,11 @@
 @section "1"
 @version "2.45.0"
 @author  "Linus Torvalds"
-@updated "2026-05-13"
+@updated "2026-05-14"
 ---
 
 # NAME
-. git - the stupid content tracker
+. git - the stupid content tracker 🚀
 
 # SYNOPSIS
 $ git [--version] [--help] [-C <path>] [-c <name>=<value>]
@@ -18,47 +18,46 @@ $     [--config-env=<name>=<envvar>] <command> [<args>]
 # DESCRIPTION
 . **Git** is a fast, scalable, distributed revision control system with an
  unusually rich command set that provides both high-level operations
- and full access to internals.
+ and full access to internals. 🛠️
 
-. See {gittutorial(7)} to get started, then see {giteveryday(7)} for a
- useful minimum set of commands. The **Git** User's Manual has a more
- in-depth introduction.
+. This guide is designed to test the **Advanced Layout Engine**. It contains
+ various complex tokens to verify UTF-8 safety, tiered breakpoints, and
+ style persistence.
 
-# OPTIONS
-- `--version` : Prints the **Git** suite version that the `git` program came from.
-- `-h`, `--help` : Prints the synopsis and a list of the most commonly used commands.
-- `-C <path>` : Run as if **Git** was started in `<path>` instead of the current working directory.
+# ADVANCED WRAPPING TEST
+## Deep Paths & URLs
+. The engine should intelligently wrap long technical strings at logical
+ break points like slashes or dots:
+. `/data/data/com.termux/files/home/works/gig/src/layout/wrap.c`
+. `https://github.com/google/gemini-cli/blob/main/src/pager/render.c#L123`
 
-## Logical Flags
-| Flag | Description
-| :--- | :---
-| `--bare` | Treat the repository as a bare repository.
-| `--paginate` | Pipe all output into a pager.
-| `--no-pager` | Do not pipe **Git** output into a pager.
+## Bracket Awareness
+. Technical text often contains nested groupings. The engine should prioritize
+ breaking *before* an opening bracket to keep parameters grouped:
+. `func([long_parameter_name], {nested_config_object: "value"}, <placeholder>)`
 
-# CONFIGURATION
-. **Git** uses a tiered configuration system. You can view your current
- settings using the following command:
+## Style Persistence
+. **This paragraph starts bold and contains a `Sage Green Command` and a
+ <Terracotta Argument> to ensure that styles do not "bleed" or get lost
+ across the many line breaks that occur in a narrow viewport.**
 
-$ git config --list --show-origin
+# RESPONSIVE TABLES
+| Section | Flag | Description & Long Content
+| :--- | :--- | :---
+| Core | `--bare` | Treat the repository as a bare repository. It does not have a working directory.
+| Config | `-c <n>=<v>` | Pass a configuration parameter to the command. Example: `git -c core.editor=vim commit`.
+| Search | `--grep` | **Note**: Searches for patterns in the commit log message. It is very useful for finding specific changes.
 
-## Example Configuration File
-! [user]
-!     name = "John Doe"
-!     email = "john@example.com"
-! [core]
-!     editor = "vim"
-!     pager = "gig view"
-
-# COMMON COMMANDS
-*   `clone` : Clone a repository into a new directory.
-*   `init`  : Create an empty **Git** repository or reinitialize an existing one.
-*   `add`   : Add file contents to the index.
-*   `commit`: Record changes to the repository.
+# TECHNICAL BLOCKS
+## Literal Configuration (Non-Wrapping)
+! # This block tests smart truncation for extremely long literal lines:
+! [remote "origin"]
+!     url = https://very-long-and-nested-subdomain.example.com/path/to/repo/that/is/deeply/nested/and/should/be/truncated.git
+!     fetch = +refs/heads/*:refs/remotes/origin/*
 
 # NOTES
 > **WARNING**: Git is a powerful tool. Commands like `rm -rf` or
 > `reset --hard` can result in permanent data loss if not used
-> with extreme caution.
+> with extreme caution. (POSIX compliance is mandatory: π ≈ 3.14159).
 
 . For more information, visit the official site at "https://git-scm.com".

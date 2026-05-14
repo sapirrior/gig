@@ -32,10 +32,16 @@ The layout engine transforms semantic blocks into a `gig_layout_t`, which is ess
 - **ANSI-Aware Wrapping:** `gig_wrap_text` in `wrap.c` calculates visual width by skipping `\x1b[` sequences. It tracks the current ANSI state and resets/restores it at line boundaries to prevent "style bleeding."
 
 ### The Table Engine (`table.c`)
-The most complex part of the layout system.
-- **Column Scaling:** Proportionally reduces column widths to fit the dynamic `content_w` while respecting a minimum width of 4.
-- **Internal Warping:** Every cell is essentially a sub-layout. Content is wrapped *within* the allocated column width.
-- **Unicode Grid:** Uses a `draw_border` helper to render consistent UTF-8 box-drawing characters based on the final calculated column widths.
+The table system uses a multi-pass heuristic for column allocation.
+- **Fluidity Scoring:** Distinguishes between 'fixed' label columns and 'fluid' content columns by analyzing word density and length.
+- **Priority Allocation:** Satisfies fixed columns first (up to a cap) and distributes the bulk of the width to fluid columns.
+- **Responsive Stacking:** On very narrow terminals (< 40 chars), automatically stacks 2-column tables into a vertical bulleted definition format.
+
+### Advanced Wrapping (`wrap.c`)
+A UTF-8 aware, semantic-aware wrapping module.
+- **Tiered Breakpoints:** Prioritizes spaces (P3), punctuation (P2), and technical separators (P1, e.g., `/`, `_`, `.`) to ensure logical breaks for paths and URLs.
+- **Bracket Awareness:** Implements "break-before" logic for opening brackets to maintain parameter grouping.
+- **ANSI Persistence:** Tracks ANSI escape sequences across line breaks with a 1024-byte state buffer to prevent style bleeding.
 
 ## 4. TUI & Rendering (`pager/`)
 The pager is a `termios` application using a custom memory buffer.

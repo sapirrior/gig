@@ -1,5 +1,5 @@
 CC = clang
-VERSION = 2.0.3
+VERSION = 2.0.4
 CFLAGS = -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200809L -Isrc -MMD -MP -DGIG_VERSION=\"$(VERSION)\"
 LDFLAGS = 
 

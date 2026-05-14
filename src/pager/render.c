@@ -195,7 +195,7 @@ void gig_pager_draw_screen(gig_doc_t *doc, gig_layout_t *layout, gig_term_state_
                 else b_idx += sprintf(bar + b_idx, "─");
             }
             bar[b_idx] = '\0';
-            right_len = snprintf(right_buf, sizeof(right_buf), " %3d%% %s ", progress, bar);
+            snprintf(right_buf, sizeof(right_buf), " %3d%% %s ", progress, bar);
             // Re-calculate actual visual length because of multi-byte Unicode
             right_len = 5 + 1 + 10 + 2; // " 100% " + 10 chars + " "
         } else {

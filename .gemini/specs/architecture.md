@@ -17,8 +17,8 @@
 ### 2. The Layout Engine (`src/layout/`)
 - **Viewport Boundary:** Golden Responsive Staircase scaling to 80% of terminal width.
 - **Indentation Model:** Fluid percentages (0%, 10%, 15%) for headers, body, and deep content.
-- **ANSI-Aware Wrapping:** Preserves formatting across line breaks.
-- **Table Engine:** Scales columns and wraps content inside cells.
+- **Advanced Wrapping:** UTF-8 aware semantic logic prioritizing technical breakpoints and "break-before" brackets.
+- **Table Engine:** Heuristic-driven column balancing with responsive stacking for narrow viewports.
 - **Literal Truncation:** Smart ellipsis (...) for overflowing literal (!) lines.
 
 
