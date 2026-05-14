@@ -28,17 +28,17 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "sections") == 0) {
         printf("\n%sGIG Section Reference:%s\n", GIG_CLR_HEADER, GIG_CLR_RESET);
-        printf("  %s1%s  User Commands\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s2%s  System Calls\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s3%s  Library Functions\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s4%s  Special Files & Devices\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s5%s  File Formats & Conventions\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s6%s  Games & Demos\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s7%s  Miscellaneous & Specifications\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s8%s  System Administration\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %s9%s  Kernel Routines\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %sn%s  New / Pending Guides\n", GIG_CLR_CMD, GIG_CLR_RESET);
-        printf("  %sl%s  Local / Project Specific\n\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s1%s  User Commands (Executable programs or shell commands)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s2%s  System Calls (Functions provided by the kernel)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s3%s  Library Functions (Functions within system libraries)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s4%s  Special Files (Device files usually found in /dev)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s5%s  File Formats (File formats and conventions, e.g., .gg specs)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s6%s  Games (Games and demonstrations)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s7%s  Miscellaneous (Overviews, specifications, and macro packages)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s8%s  System Administration (Commands for root/administrators)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %s9%s  Kernel Routines (Non-standard kernel internal functions)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %sn%s  New / Pending (Newly drafted or pending guides)\n", GIG_CLR_CMD, GIG_CLR_RESET);
+        printf("  %sl%s  Local (Project-specific or local documentation)\n\n", GIG_CLR_CMD, GIG_CLR_RESET);
         return 0;
     }
 

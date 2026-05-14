@@ -40,24 +40,30 @@ Guides must be placed in subdirectories named after their section:
     └── test.gg
 ```
 
-### Section Reference
-`gig` follows the standard manual section categorization:
-- **1**: User Commands (e.g., `gig`, `ls`, `grep`)
-- **2**: System Calls (Kernel functions)
-- **3**: Library Functions (C library functions)
-- **4**: Special Files (Devices in `/dev`)
-- **5**: File Formats (Syntax specs like `.gg`)
-- **6**: Games & Demos
-- **7**: Miscellaneous (Specifications, overview guides)
-- **8**: System Administration (Root-level tools)
-- **9**: Kernel Routines (Non-standard internals)
-- **n**: New / Pending (Drafts or new guides)
-- **l**: Local (Project-specific documentation)
+### Section Reference & Search Order
+`gig` follows the standard manual section categorization for organizing guides:
+
+- **1**: **User Commands** (Executable programs or shell commands)
+- **2**: **System Calls** (Functions provided by the kernel)
+- **3**: **Library Functions** (Functions within system libraries)
+- **4**: **Special Files** (Device files usually found in `/dev`)
+- **5**: **File Formats** (File formats and conventions, e.g., `.gg` specs)
+- **6**: **Games** (Games and demonstrations)
+- **7**: **Miscellaneous** (Overviews, specifications, and macro packages)
+- **8**: **System Administration** (Commands for root/administrators)
+- **9**: **Kernel Routines** (Non-standard kernel internal functions)
+- **n**: **New / Pending** (Newly drafted or pending guides)
+- **l**: **Local** (Project-specific or local documentation)
+
+### Tiered Search Order
+When a guide is requested without a specific section (e.g., `gig ls`), the engine performs a tiered search across sections in the following priority order to resolve the name:
+
+`1` → `n` → `l` → `8` → `3` → `2` → `5` → `4` → `9` → `6` → `7`
 
 ## 4. Operational Modes
 
 ### A. Manual Mode (`gig [section] <name>`)
-Searches the system paths for a guide. If no section is provided, it defaults to Section 1.
+Searches the system paths for a guide. If no section is provided, it performs a **Tiered Search** (see above) to find the best match.
 ```bash
 gig ls
 gig 7 help

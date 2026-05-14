@@ -43,7 +43,7 @@ void gig_help_print_full(void) {
     printf("    %s•%s %sview%s <%sfile%s>  : Open any .gg file on your disk\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET, GIG_CLR_ARG, GIG_CLR_RESET);
     printf("    %s•%s %spath%s          : See the guide search path\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("    %s•%s %sversion%s       : Check your %sGIG%s version\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET, GIG_CLR_BOLD, GIG_CLR_RESET);
-    printf("    %s•%s %ssections%s      : Look at the manual map (1-9)\n\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);
+    printf("    %s•%s %ssections%s      : List manual sections (1-9, n, l)\n\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);
 
     printf("%sENJOY THE RIDE!%s\n", GIG_CLR_HEADER, GIG_CLR_RESET);
     printf("    GIG uses a %s\"Golden Staircase\"%s layout for readability.\n", GIG_CLR_BOLD, GIG_CLR_RESET);

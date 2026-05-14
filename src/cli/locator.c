@@ -20,10 +20,18 @@ char* gig_locate_page(const char *section, const char *name) {
 
     char path[1024];
     struct stat st;
-    const char *target_section = section ? section : "1";
 
-    snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, target_section, name);
-    if (stat(path, &st) == 0) return strdup(path);
+    if (section) {
+        snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, section, name);
+        if (stat(path, &st) == 0) return strdup(path);
+    } else {
+        // POSIX Tiered Search Order: 1, n, l, 8, 3, 2, 5, 4, 9, 6, 7
+        const char *order[] = {"1", "n", "l", "8", "3", "2", "5", "4", "9", "6", "7"};
+        for (int i = 0; i < 11; i++) {
+            snprintf(path, sizeof(path), "%s/%s/%s.gg", GIG_PATH, order[i], name);
+            if (stat(path, &st) == 0) return strdup(path);
+        }
+    }
 
     return NULL;
 }
