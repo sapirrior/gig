@@ -45,6 +45,7 @@ void gig_wrap_text(gig_layout_t *layout, const char *text, int width, int left_p
     while (*p) {
         int vis_len = 0;
         int buf_idx = 0;
+        const char *p_at_line_start = p;
         
         // 1. Initial padding
         for (int i = 0; i < left_pad; i++) line_buf[buf_idx++] = ' ';
@@ -110,7 +111,7 @@ void gig_wrap_text(gig_layout_t *layout, const char *text, int width, int left_p
 
         // 3. Wrap Decision
         if (*p && vis_len >= width) {
-            if (best_break_p && best_break_p > (text + left_pad)) {
+            if (best_break_p && (best_break_p > p_at_line_start)) {
                 // We have a valid breakpoint
                 buf_idx = best_break_buf_idx;
                 p = best_break_p;
@@ -121,7 +122,11 @@ void gig_wrap_text(gig_layout_t *layout, const char *text, int width, int left_p
                     while (*p == ' ') p++;
                 }
             } else {
-                // No breakpoint found, force break (emergency)
+                // No breakpoint found, we already advanced p in the inner loop.
+                // p is currently at the character that pushed vis_len >= width.
+                // We just stop here and continue on next line.
+                // This is the "emergency force break".
+                strcpy(active_state, active_state); // State remains active
             }
         }
 
