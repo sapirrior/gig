@@ -23,9 +23,9 @@ The parser is a single-pass state machine that converts raw text into a structur
 ### B. The Layout Engine (`src/layout/`)
 The layout engine is responsible for transforming semantic blocks into a character-precise terminal representation.
 - **Builder (`builder.c`):** Implements the **Golden Responsive Staircase**. It calculates container widths and proportional indents based on the current terminal size.
-- **Table Engine (`table.c`):** A renderer that calculates column weights using a heuristic fluidity score, performs internal cell wrapping, and draws Unicode borders.
+- **Table Engine (`table.c`):** A hardened renderer that calculates column weights using a **Weighted Elasticity** heuristic, performs internal cell wrapping, and draws Unicode borders. It implements **Mixed Alignment** (centered headers/left-aligned data) and dynamic internal padding.
 - **Inline Processor (`inline.c`):** A regex-like scanner that injects ANSI color escape sequences into text based on semantic markers (e.g., `**bold**`, `-f`).
-- **Advanced Wrapper (`wrap.c`):** A UTF-8 aware, semantic wrapping algorithm. It prioritizes breakpoints (spaces, punctuation, paths) and uses "break-before" logic for brackets while preserving ANSI state.
+- **Advanced Wrapper (`wrap.c`):** A UTF-8 aware, semantic wrapping algorithm. It prioritizes breakpoints (spaces, punctuation, paths) and uses "break-before" logic for brackets. Includes a **Character-Level Force-Break** mechanism for extremely narrow columns or unbreakable strings to prevent infinite loops.
 
 ### C. The Pager Renderer (`src/pager/`)
 The pager provides the interactive interface, managing terminal state and user input.

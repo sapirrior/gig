@@ -69,8 +69,9 @@ Tables in GIG are dynamic and responsive. You don't need to align them in the so
 | `ls -a` | Lists all files, including hidden ones.
 | `rm -rf` | **DANGER**: Recursively removes files without asking.
 ```
-- The engine calculates column weights based on the longest words.
-- If the terminal is narrow, text inside cells will wrap automatically.
+- **Mixed Alignment:** The first row is treated as a header and is automatically **horizontally centered** for clarity.
+- **Weighted Elasticity:** Column widths are distributed based on content density (longest word heuristic).
+- **Responsive Wrapping:** In narrow viewports, text inside cells will automatically wrap while maintaining the grid structure.
 
 ## 5. Best Practices
 1. **Vertical Rhythm:** Use `# ` for major sections (NAME, SYNOPSIS, DESCRIPTION) and `## ` for grouping related items (Navigation, Formatting).

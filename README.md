@@ -10,10 +10,10 @@
 - **Fluid Golden Layout:** Content scales to 80% of terminal width with a balanced responsive staircase indentation.
 - **Organic Palette:** A professional color scheme (Cream, Sage, Terracotta) with dedicated high-visibility highlights for errors and warnings.
 - **Embedded Help:** Instant, colorful usage and navigation guides built directly into the binary.
-- **Table Engine:** Support for multi-line cell wrapping within a Unicode grid system.
-- **Literal Lines:** Support for unformatted, non-wrapping technical blocks with smart truncation.
-- **Interactive Pager:** Navigation features including case-insensitive search and SIGWINCH-responsive layout recalculation.
-- **Auto-Sync:** A native `sync` command to keep your documentation libraries updated from official sources.
+- **Table Engine:** Hardened Unicode grid system with mixed alignment (centered headers), weighted elasticity for width distribution, and dynamic internal cell wrapping.
+- **Literal Lines:** Support for unformatted, non-wrapping technical blocks with smart truncation and horizontal overflow indicators.
+- **Interactive Pager:** Navigation features including case-insensitive search and SIGWINCH-responsive layout recalculation with zero-flicker buffering.
+- **Auto-Sync:** Native `sync` command with atomic swaps and permissions verification to keep your documentation libraries updated from official sources.
 - **Modular Design:** An architecture organized into distinct functional sub-systems.
 
 ## 🚀 Quick Start
