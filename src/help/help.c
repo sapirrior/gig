@@ -5,11 +5,13 @@
 void gig_help_print_usage(const char *prog) {
     printf("%susage:%s %s [%ssection%s] <%sname%s>\n", GIG_CLR_WARN, GIG_CLR_RESET, prog, GIG_CLR_ARG, GIG_CLR_RESET, GIG_CLR_ARG, GIG_CLR_RESET);
     printf("       %s %sview%s <%sfile.gg%s>\n", prog, GIG_CLR_CMD, GIG_CLR_RESET, GIG_CLR_ARG, GIG_CLR_RESET);
+    printf("       %s %ssync%s\n", prog, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("       %s %spath%s\n", prog, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("       %s %sversion%s\n", prog, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("       %s %ssections%s\n", prog, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("       %s %shelp%s\n", prog, GIG_CLR_CMD, GIG_CLR_RESET);
 }
+
 
 void gig_help_print_full(void) {
     printf("\n%sWELCOME TO GIG!%s\n", GIG_CLR_HEADER, GIG_CLR_RESET);
@@ -41,6 +43,7 @@ void gig_help_print_full(void) {
 
     printf("%sYOUR TOOLKIT%s\n", GIG_CLR_HEADER, GIG_CLR_RESET);
     printf("    %s•%s %sview%s <%sfile%s>  : Open any .gg file on your disk\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET, GIG_CLR_ARG, GIG_CLR_RESET);
+    printf("    %s•%s %ssync%s          : Update guides from the cloud\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("    %s•%s %spath%s          : See the guide search path\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);
     printf("    %s•%s %sversion%s       : Check your %sGIG%s version\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET, GIG_CLR_BOLD, GIG_CLR_RESET);
     printf("    %s•%s %ssections%s      : List manual sections (1-9, n, l)\n\n", GIG_CLR_GREY, GIG_CLR_RESET, GIG_CLR_CMD, GIG_CLR_RESET);

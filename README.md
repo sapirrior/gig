@@ -13,6 +13,7 @@
 - **Table Engine:** Support for multi-line cell wrapping within a Unicode grid system.
 - **Literal Lines:** Support for unformatted, non-wrapping technical blocks with smart truncation.
 - **Interactive Pager:** Navigation features including case-insensitive search and SIGWINCH-responsive layout recalculation.
+- **Auto-Sync:** A native `sync` command to keep your documentation libraries updated from official sources.
 - **Modular Design:** An architecture organized into distinct functional sub-systems.
 
 ## 🚀 Quick Start
@@ -21,6 +22,11 @@
 Requires a C compiler (`clang` or `gcc`) and `make`.
 ```bash
 make
+```
+
+### Sync Documentation
+```bash
+./build/gig sync
 ```
 
 ### View a Guide

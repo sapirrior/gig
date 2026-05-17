@@ -7,6 +7,7 @@
 #include "pager/pager.h"
 #include "pager/terminal.h"
 #include "cli/locator.h"
+#include "cli/sync.h"
 
 #include "ui/colors.h"
 
@@ -45,6 +46,10 @@ int main(int argc, char *argv[]) {
     if (strcmp(argv[1], "version") == 0 || strcmp(argv[1], "--version") == 0) {
         printf("%sgig %s%s\n", GIG_CLR_BOLD, GIG_VERSION, GIG_CLR_RESET);
         return 0;
+    }
+
+    if (strcmp(argv[1], "sync") == 0) {
+        return gig_sync_pages();
     }
 
     char *target_path = NULL;

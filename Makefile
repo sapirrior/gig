@@ -1,5 +1,5 @@
 CC = clang
-VERSION = 2.0.4
+VERSION = 2.0.5
 CFLAGS = -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200809L -Isrc -MMD -MP -DGIG_VERSION=\"$(VERSION)\"
 LDFLAGS = 
 
@@ -24,7 +24,8 @@ SRCS = src/main.c \
        src/pager/input.c \
        src/pager/terminal.c \
        src/pager/buffer.c \
-       src/cli/locator.c
+       src/cli/locator.c \
+       src/cli/sync.c
 
 OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS = $(OBJS:.o=.d)

@@ -33,6 +33,11 @@ The pager provides the interactive interface, managing terminal state and user i
 - **Input Handler (`input.c`):** Manages non-blocking keyboard reads and sequence decoding (e.g., arrow keys, PageUp/Down).
 - **Buffer Management (`buffer.c`):** Implements a growable memory buffer to batch all ANSI commands into a single `write()` syscall, eliminating flicker.
 
+### D. CLI Utilities (`src/cli/`)
+Support modules for the command-line interface.
+- **Locator (`locator.c`):** Resolves guide names into absolute file paths using the Tiered POSIX Search Order.
+- **Sync Service (`sync.c`):** Manages documentation updates. It implements a robust synchronization logic using `curl` and `tar` with an **Atomic Swap** mechanism: new data is prepared in a temporary workspace and swapped with the existing library only when fully validated, ensuring zero-downtime and data integrity.
+
 ## 3. Core Data Structures
 
 ### `gig_doc_t` (The Document)

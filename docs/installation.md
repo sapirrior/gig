@@ -76,6 +76,7 @@ gig view ./my_notes.gg
 ```
 
 ### C. Helper Commands
+- `gig sync`: Synchronizes documentation from the official repository using a native atomic swap logic.
 - `gig path`: Displays the current internal search path.
 - `gig sections`: Shows the list of valid manual sections.
 - `gig version`: Displays the current engine version and build standard.
